@@ -22,7 +22,10 @@ contract Election {
 	// Store Candidates Count
 	uint public candidatesCount;
 
-	function Election () public {
+	// Has Voted Event
+	event votedEvent (uint indexed _candidateID);
+
+	constructor() public {
 		addCandidate("EOS");
 		addCandidate("ETH");
 	}
@@ -44,6 +47,9 @@ contract Election {
 
 		// update candidate vote Count
 		candidates[_candidateID].voteCount ++;
+
+		// trigger votedEvent
+		emit votedEvent(_candidateID);
 	}
 	
 }
