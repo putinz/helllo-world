@@ -10,6 +10,9 @@ contract Election {
 		string name;
 		uint voteCount;
 	}
+
+	// Store accounts that have voted
+	mapping (address => bool) public voters;
 	
 	// Store Candidates
 
@@ -28,4 +31,19 @@ contract Election {
 		candidatesCount ++;
 		candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);	
 	}
+
+	function vote (uint _candidateID) public {
+		// require that one voter has not voted before
+		require (!voters[msg.sender]);
+		
+		// require a valid candidate
+		require (_candidateID > 0 && _candidateID <= candidatesCount);
+		
+		// record that voter as voted
+		voters[msg.sender] = true;
+
+		// update candidate vote Count
+		candidates[_candidateID].voteCount ++;
+	}
+	
 }
